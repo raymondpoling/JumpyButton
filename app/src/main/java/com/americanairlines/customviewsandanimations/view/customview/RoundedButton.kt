@@ -29,27 +29,32 @@ class RoundedButton(context: Context, attributeSet: AttributeSet?): View(context
 
     var incX = 0
     var incY = 0
-    var speedX= 1
-    var speedY= 1
+
+    var speedX= 10
+    var speedY= 10
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        if(midX + circleRadius > width.toFloat())
-            speedX *= -1
 
         midX = width/2.toFloat() + incX
         midY = height/2.toFloat() + incY
 
         paint.color = Color.BLACK
-        incX += speedX
-        //incY += speedY
-
-
+        // draw the circle
         canvas.drawCircle(midX, midY, circleRadius, paint)
 
-        //if(midY + circleRadius > height || midY + circleRadius <= 0)
-          //  speedY *= -1
+        // update the logic for the circle AFTER drawing it
+
+        if(midX + circleRadius > canvas.width || midX - circleRadius < 0) {
+            speedX *= - 1
+        }
+
+        if(midY + circleRadius > height || midY + circleRadius < 0)
+            speedY *= -1
+
+        incX += speedX
+        incY += speedY
+
 
         paint.color = Color.CYAN
         paint.textSize = 40f
